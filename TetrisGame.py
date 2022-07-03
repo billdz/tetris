@@ -3,9 +3,11 @@
 #: pip install pygame
 import random
 import sys
+from turtle import screensize
 import pygame
 from color import *
 from layout import Layout
+from panel import Panel
 
 
 # -------------------------------------------------------------------
@@ -16,9 +18,12 @@ def main():
     while True:
         layout = Layout()
         layout.create_new_building()
+        panelsize = (100, 528)
+        screensize = (layout.size[0]+panelsize[0], 528)
         pygame.init()
         pygame.display.set_caption('俄罗斯方块')
-        screen = pygame.display.set_mode((layout.size), 0, 32)
+        screen = pygame.display.set_mode(screensize, 0, 32)
+        panel = Panel(layout.size[0], 0, *panelsize)
         is_over = False
         #: 单局游戏循环开始 [结束后直接重新开始]
         while not is_over:
@@ -45,6 +50,9 @@ def main():
             #: 绘制
             layout.draw(screen)
             layout.draw_building(screen)
+            score = '{:0>3d}'.format(layout.get_score())
+            panel.score_text.set_text(score)
+            panel.draw(screen)
             pygame.display.update()
             #: 速度
             pygame.time.Clock().tick(layout.speed)

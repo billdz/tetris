@@ -12,6 +12,7 @@ class Layout:
         self.block_x_count = x_count
         self.block_y_count = y_count
         self.raw_speed = raw_speed
+        self.score = 0      # 分数, 每消除一行加一
         self.layout = [
                 [0 if 1 < i < self.block_x_count - 2 and j < self.block_y_count - 2
                     else 1 
@@ -25,6 +26,9 @@ class Layout:
         """返回棋盘屏幕大小(width,height)"""
         return (self.block_x_count * Block.width,
                 self.block_y_count * Block.height)
+
+    def get_score(self):
+        return self.score
 
     def create_new_building(self):
         """
@@ -106,8 +110,11 @@ class Layout:
                 new_layout[new_row] = self.layout[cur_row]
                 new_buildings[new_row] = self.old_buildings[cur_row]
                 new_row -= 1
+            else:
+                self.score += 1
         self.layout = new_layout
         self.old_buildings = new_buildings
+        
 
     def put_building_to_layout(self):
         """将积木放到棋盘里"""
