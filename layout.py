@@ -1,6 +1,7 @@
 from random import choice
 from color import *
-from modules import *
+from modules import Building
+from drawer import Block
 
 
 class Layout:
@@ -9,10 +10,12 @@ class Layout:
     def __init__(self):
         self.block_x_count = 16
         self.block_y_count = 22
-        self.layout = [[
-            0 if 1 < i < self.block_x_count - 2 and j < self.block_y_count - 2
-            else 1 for i in range(self.block_x_count)
-        ] for j in range(self.block_y_count)]
+        self.layout = [
+                [0 if 1 < i < self.block_x_count - 2 and j < self.block_y_count - 2
+                    else 1 
+                    for i in range(self.block_x_count)
+                    ] for j in range(self.block_y_count)
+            ]
 
     @property
     def size(self):
@@ -85,10 +88,12 @@ class Layout:
 
     def clear_full_lines(self):
         """消除满行的所有行"""
-        new_layout = [[
-            0 if 1 < i < self.block_x_count - 2 and j < self.block_y_count - 2
-            else 1 for i in range(self.block_x_count)
-        ] for j in range(self.block_y_count)]
+        new_layout = [
+            [
+                0 if 1 < i < self.block_x_count - 2 and j < self.block_y_count - 2
+                else 1 for i in range(self.block_x_count)
+            ] for j in range(self.block_y_count)
+        ]
 
         row_len = self.block_x_count - 4
         new_row = self.block_y_count - 2 - 1
@@ -120,7 +125,7 @@ class Layout:
                     Block.draw(s, cur_left + i * Block.width,
                                cur_top + j * Block.height, 
                                self.building.get_color(),
-                               COLOR_BLACK
+                               COLOR_WHITE
                     )
 
     def draw(self, s):
