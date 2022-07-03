@@ -1,3 +1,4 @@
+from random import choice
 from color import *
 from modules import *
 
@@ -45,9 +46,9 @@ class Layout:
         for i in range(4, -1, -1):
             for j in range(5):
                 if self.building[i][j]:
-                    if self.layout[i + self.building_top +
-                                   y_offset][j + self.building_left +
-                                             x_offset]:
+                    if self.layout[
+                        i + self.building_top +y_offset][
+                            j + self.building_left +x_offset]:
                         return True
         return False
 
@@ -80,7 +81,7 @@ class Layout:
         for i in range(5):
             for j in range(4, -1, -1):
                 new_box[i][j] = self.building[4 - j][i]
-        self.building = new_box
+        self.building.change_to(new_box)
 
     def clear_full_lines(self):
         """消除满行的所有行"""
@@ -102,8 +103,7 @@ class Layout:
         for i in range(4, -1, -1):
             for j in range(5):
                 if self.building[i][j]:
-                    self.layout[i + self.building_top][j +
-                                                       self.building_left] = 1
+                    self.layout[i + self.building_top][j +self.building_left] = 1
         #: 这里会调用消除函数
         self.clear_full_lines()
 
@@ -118,8 +118,10 @@ class Layout:
                 # 只画积木实体，不管盒子本身
                 if self.building[j][i]:
                     Block.draw(s, cur_left + i * Block.width,
-                               cur_top + j * Block.height, COLOR_BLACK,
-                               COLOR_WHITE)
+                               cur_top + j * Block.height, 
+                               self.building.get_color(),
+                               COLOR_BLACK
+                    )
 
     def draw(self, s):
         """
